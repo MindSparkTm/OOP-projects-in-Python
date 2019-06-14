@@ -112,6 +112,7 @@ class PdfInvoice(Invoice):
         except Exception as ex:
             print ('Exception',ex)
 
+
 if __name__ == "__main__":
     creator = Creator('Test','User','test@gmail.com',
          '099006789','Joans Apartment, 123 Test road','Nairobi','Kenya')
@@ -121,9 +122,9 @@ if __name__ == "__main__":
     bank_detail = BankAccountDetail('Test User','999999678','KES',
                                   'Test Bank','Kenya','BRANCH  Way, ABC Place')
 
-    file = File("Invoice.pdf",12,5,"letter")
+    _file = File("Invoice.pdf",12,5,"letter")
 
     project = Project('Ecommerce site','Worked on the ecommerce site',10.900)
 
-    pdf_inv = PdfInvoice('1393939',creator,organization,project,bank_detail,file)
+    pdf_inv = PdfInvoice('1393939',creator,organization,project,bank_detail,_file)
     pdf_inv.generate_pdf()
