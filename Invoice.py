@@ -50,6 +50,10 @@ class Invoice:
         self.project = project
         self.bankaccountdetail = bankaccountdetail
 
+    def error(self, msg):
+        "Fatal error"
+        raise RuntimeError('FPDF error: '+msg)
+
 class File:
     def __init__(self,filename,font_size,line_height,orientation):
         self.filename = filename
@@ -70,53 +74,56 @@ class PdfInvoice(Invoice):
     def generate_pdf(self):
         dt = datetime.now()
         date = dt.date()
-        pdf = fpdf.FPDF(format=self.file.orientation)
-        pdf.add_page()
-        pdf.set_font("Arial", size=self.file.font_size)
-        pdf_content ={
-            "Invoice Number #":self.invoice_num,
-            "Date of Invoice #": str(date),
-            "Name #":'{}{}'.format(self.creator.first_name,self.creator.last_name),
-            "Address #": self.creator.address,
-            "City #":self.creator.city,
-            "Country #":self.creator.country,
-            "Email #":self.creator.email,
-            "Phone Number #": self.creator.phone_num,
-            "Bill To #": "",
-            "Organization Name #":self.organization.name,
-            "Organization Address #":self.organization.address,
-            "Organization City #": self.organization.city,
-            "Organization Country #":self.organization.country,
-            "Amount # ": str(self.project.amount),
-            "Comments # ": self.project.description,
-            "Bank Details": "",
-            "Account Name #":self.bankaccountdetail.account_name,
-            "Account Number #": self.bankaccountdetail.account_num,
-            "Bank Name #": self.bankaccountdetail.bank_name,
-            "Branch  #": self.bankaccountdetail.branch,
-            "Branch Address  #": self.bankaccountdetail.branch_addr,
-            "Currency #":self.bankaccountdetail.currency
-
-        }
-        pdf.write(self.file.line_height, "Billed By #")
-        pdf.ln()
-        for key,value in pdf_content.items():
-            pdf.write(self.file.line_height,key)
-            pdf.write(self.file.line_height,value)
+        try:
+            pdf = fpdf.FPDF(format=self.file.orientation)
+            pdf.add_page()
+            pdf.set_font("Arial", size=self.file.font_size)
+            pdf_content ={
+                "Invoice Number #":self.invoice_num,
+                "Date of Invoice #": str(date),
+                "Name #":'{}{}'.format(self.creator.first_name,self.creator.last_name),
+                "Address #": self.creator.address,
+                "City #":self.creator.city,
+                "Country #":self.creator.country,
+                "Email #":self.creator.email,
+                "Phone Number #": self.creator.phone_num,
+                "Bill To #": "",
+                "Organization Name #":self.organization.name,
+                "Organization Address #":self.organization.address,
+                "Organization City #": self.organization.city,
+                "Organization Country #":self.organization.country,
+                "Amount # ": str(self.project.amount),
+                "Comments # ": self.project.description,
+                "Bank Details": "",
+                "Account Name #":self.bankaccountdetail.account_name,
+                "Account Number #": self.bankaccountdetail.account_num,
+                "Bank Name #": self.bankaccountdetail.bank_name,
+                "Branch  #": self.bankaccountdetail.branch,
+                "Branch Address  #": self.bankaccountdetail.branch_addr,
+                "Currency #":self.bankaccountdetail.currency
+            }
+            pdf.write(self.file.line_height, "Billed By #")
             pdf.ln()
-        pdf.output(self.file.filename)
+            for key,value in pdf_content.items():
+                pdf.write(self.file.line_height,key)
+                pdf.write(self.file.line_height,value)
+                pdf.ln()
+            pdf.output(self.file.filename)
+        except Exception as ex:
+            print ('Exception',ex)
 
-creator = Creator('Test','User','test@gmail.com',
+if __name__ == "__main__":
+    creator = Creator('Test','User','test@gmail.com',
          '099006789','Joans Apartment, 123 Test road','Nairobi','Kenya')
 
-organization = Organization('Test Org','Ndemi Road Kilimani', 'Nairobi','Kenya')
+    organization = Organization('Test Org','Ndemi Road Kilimani', 'Nairobi','Kenya')
 
-bank_detail = BankAccountDetail('Test User','999999678','KES',
+    bank_detail = BankAccountDetail('Test User','999999678','KES',
                                   'Test Bank','Kenya','BRANCH  Way, ABC Place')
 
-file = File("Invoice.pdf",12,5,"letter")
+    file = File("Invoice.pdf",12,5,"letter")
 
-project = Project('Ecommerce site','Worked on the ecommerce site',10.900)
+    project = Project('Ecommerce site','Worked on the ecommerce site',10.900)
 
-pdf_inv = PdfInvoice('1393939',creator,organization,project,bank_detail,file)
-pdf_inv.generate_pdf()
+    pdf_inv = PdfInvoice('1393939',creator,organization,project,bank_detail,file)
+    pdf_inv.generate_pdf()
