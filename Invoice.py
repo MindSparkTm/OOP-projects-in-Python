@@ -10,6 +10,7 @@ class Creator:
         self.address = address
         self.city = city
         self.country = country
+
 class Organization:
     def __init__(self,name,address,city,country):
         self.name = name
@@ -72,67 +73,37 @@ class PdfInvoice(Invoice):
         pdf = fpdf.FPDF(format=self.file.orientation)
         pdf.add_page()
         pdf.set_font("Arial", size=self.file.font_size)
-        pdf.write(self.file.line_height,"Invoice Number #")
-        pdf.write(self.file.line_height,self.invoice_num)
-        pdf.ln()
-        pdf.write(self.file.line_height,"Date Invoiced #")
-        pdf.write(self.file.line_height,str(date))
-        pdf.ln()
+        pdf_content ={
+            "Invoice Number #":self.invoice_num,
+            "Date of Invoice #": str(date),
+            "Name #":'{}{}'.format(self.creator.first_name,self.creator.last_name),
+            "Address #": self.creator.address,
+            "City #":self.creator.city,
+            "Country #":self.creator.country,
+            "Email #":self.creator.email,
+            "Phone Number #": self.creator.phone_num,
+            "Bill To #": "",
+            "Organization Name #":self.organization.name,
+            "Organization Address #":self.organization.address,
+            "Organization City #": self.organization.city,
+            "Organization Country #":self.organization.country,
+            "Amount # ": str(self.project.amount),
+            "Comments # ": self.project.description,
+            "Bank Details": "",
+            "Account Name #":self.bankaccountdetail.account_name,
+            "Account Number #": self.bankaccountdetail.account_num,
+            "Bank Name #": self.bankaccountdetail.bank_name,
+            "Branch  #": self.bankaccountdetail.branch,
+            "Branch Address  #": self.bankaccountdetail.branch_addr,
+            "Currency #":self.bankaccountdetail.currency
+
+        }
         pdf.write(self.file.line_height, "Billed By #")
-        pdf.write(self.file.line_height,"{}{}".format(self.creator.first_name,self.creator.last_name))
         pdf.ln()
-        pdf.write(self.file.line_height,"Address #")
-        pdf.write(self.file.line_height,self.creator.address)
-        pdf.ln()
-        pdf.write(self.file.line_height, "City #")
-        pdf.write(self.file.line_height, self.creator.city)
-        pdf.ln()
-        pdf.write(self.file.line_height,"Country #")
-        pdf.write(self.file.line_height,self.creator.country)
-        pdf.ln()
-        pdf.write(self.file.line_height, "Email #")
-        pdf.write(self.file.line_height, self.creator.email)
-        pdf.ln()
-        pdf.write(self.file.line_height, "Phone Number #")
-        pdf.write(self.file.line_height, self.creator.phone_num)
-        pdf.ln()
-        pdf.write(self.file.line_height,"Billed To #")
-        pdf.ln()
-        pdf.write(self.file.line_height,"Organization Name #")
-        pdf.write(self.file.line_height,self.organization.name)
-        pdf.ln()
-        pdf.write(self.file.line_height, "Organization Address #")
-        pdf.write(self.file.line_height, self.organization.address)
-        pdf.ln()
-        pdf.write(self.file.line_height, "Organization City #")
-        pdf.write(self.file.line_height, self.organization.city)
-        pdf.ln()
-        pdf.write(self.file.line_height, "Organization Country #")
-        pdf.write(self.file.line_height, self.organization.country)
-        pdf.ln()
-        pdf.write(self.file.line_height, "Comments #")
-        pdf.write(self.file.line_height, self.project.description)
-        pdf.ln()
-        pdf.write(self.file.line_height, "Amount #")
-        pdf.write(self.file.line_height,str(self.project.amount))
-        pdf.ln()
-        pdf.write(self.file.line_height,'Account details ')
-        pdf.ln()
-        pdf.write('Account Name #')
-        pdf.write(self.file.line_height,self.bankaccountdetail.account_name)
-        pdf.ln()
-        pdf.write('Account Number #')
-        pdf.write(self.file.line_height,self.bankaccountdetail.account_num)
-        pdf.ln()
-        pdf.write('Account Currency #')
-        pdf.write(self.file.line_height, self.bankaccountdetail.currency)
-        pdf.ln()
-        pdf.write('Bank Name #')
-        pdf.write(self.file.line_height, self.bankaccountdetail.bank_name)
-        pdf.ln()
-        pdf.write('Branch Address #')
-        pdf.write(self.file.line_height, self.bankaccountdetail.branch_addr)
-        pdf.ln()
+        for key,value in pdf_content.items():
+            pdf.write(self.file.line_height,key)
+            pdf.write(self.file.line_height,value)
+            pdf.ln()
         pdf.output(self.file.filename)
 
 creator = Creator('Test','User','test@gmail.com',
