@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>Python</ID>
+  <OriginalElement>#/home/surajt/PycharmProjects/OOP/Invoice.py</OriginalElement>
+  <nodes>
+    <node x="12.0" y="91.0">Invoice.Invoice</node>
+    <node x="166.0" y="91.0">Invoice.Creator</node>
+    <node x="606.0" y="91.0">Invoice.Organization</node>
+    <node x="323.0" y="91.0">Invoice.File</node>
+    <node x="410.75" y="0.0">object</node>
+    <node x="0.0" y="172.0">Invoice.PdfInvoice</node>
+    <node x="802.0" y="91.0">Invoice.BankAccountDetail</node>
+    <node x="452.0" y="91.0">Invoice.Project</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Invoice.Organization" target="object">
+      <point x="0.0" y="-15.5" />
+      <point x="694.0" y="61.0" />
+      <point x="467.0" y="61.0" />
+      <point x="18.75" y="15.5" />
+    </edge>
+    <edge source="Invoice.Project" target="object">
+      <point x="0.0" y="-15.5" />
+      <point x="519.0" y="71.0" />
+      <point x="454.5" y="71.0" />
+      <point x="6.25" y="15.5" />
+    </edge>
+    <edge source="Invoice.File" target="object">
+      <point x="0.0" y="-15.5" />
+      <point x="377.5" y="71.0" />
+      <point x="442.0" y="71.0" />
+      <point x="-6.25" y="15.5" />
+    </edge>
+    <edge source="Invoice.Invoice" target="object">
+      <point x="0.0" y="-15.5" />
+      <point x="79.0" y="51.0" />
+      <point x="417.0" y="51.0" />
+      <point x="-31.25" y="15.5" />
+    </edge>
+    <edge source="Invoice.PdfInvoice" target="Invoice.Invoice">
+      <point x="0.0" y="-15.5" />
+      <point x="0.0" y="15.5" />
+    </edge>
+    <edge source="Invoice.Creator" target="object">
+      <point x="0.0" y="-15.5" />
+      <point x="234.5" y="61.0" />
+      <point x="429.5" y="61.0" />
+      <point x="-18.75" y="15.5" />
+    </edge>
+    <edge source="Invoice.BankAccountDetail" target="object">
+      <point x="0.0" y="-15.5" />
+      <point x="911.0" y="51.0" />
+      <point x="479.5" y="51.0" />
+      <point x="31.25" y="15.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.9038461538461539" x="510.0" y="101.5" />
+  <SelectedNodes />
+  <Categories />
+</Diagram>
+
